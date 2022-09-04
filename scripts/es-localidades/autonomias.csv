@@ -1,0 +1,53 @@
+codAutonomia,descripcion,codProvincia,descripcionProvincia,isCiudadAutonoma
+1,Andalucía,4,Almería,N
+1,Andalucía,11,Cádiz,N
+1,Andalucía,14,Córdoba,N
+1,Andalucía,18,Granada,N
+1,Andalucía,21,Huelva,N
+1,Andalucía,23,Jaén,N
+1,Andalucía,29,Málaga,N
+1,Andalucía,41,Sevilla,N
+2,Aragón,22,Huesca,N
+2,Aragón,44,Teruel,N
+2,Aragón,50,Zaragoza,N
+3,"Asturias, Principado de",33,Asturias,N
+4,"Balears, Illes",7,"Balears, Illes",N
+5,Canarias,35,"Palmas, Las",N
+5,Canarias,38,Santa Cruz de Tenerife,N
+6,Cantabria,39,Cantabria,N
+7,Castilla y León,5,Ávila,N
+7,Castilla y León,9,Burgos,N
+7,Castilla y León,24,León,N
+7,Castilla y León,34,Palencia,N
+7,Castilla y León,37,Salamanca,N
+7,Castilla y León,40,Segovia,N
+7,Castilla y León,42,Soria,N
+7,Castilla y León,47,Valladolid,N
+7,Castilla y León,49,Zamora,N
+8,Castilla-La Mancha,2,Albacete,N
+8,Castilla-La Mancha,13,Ciudad Real,N
+8,Castilla-La Mancha,16,Cuenca,N
+8,Castilla-La Mancha,19,Guadalajara,N
+8,Castilla-La Mancha,45,Toledo,N
+9,Cataluña,8,Barcelona,N
+9,Cataluña,17,Girona,N
+9,Cataluña,25,Lleida,N
+9,Cataluña,43,Tarragona,N
+10,Comunitat Valenciana,3,Alicante/Alacant,N
+10,Comunitat Valenciana,12,Castellón/Castelló,N
+10,Comunitat Valenciana,46,Valencia/València,N
+11,Extremadura,6,Badajoz,N
+11,Extremadura,10,Cáceres,N
+12,Galicia,15,"Coruña, A",N
+12,Galicia,27,Lugo,N
+12,Galicia,32,Ourense,N
+12,Galicia,36,Pontevedra,N
+13,"Madrid, Comunidad de",28,Madrid,N
+14,"Murcia, Región de",30,Murcia,N
+15,"Navarra, Comunidad Foral de",31,Navarra,N
+16,País Vasco,1,Araba/Álava,N
+16,País Vasco,48,Bizkaia,N
+16,País Vasco,20,Gipuzkoa,N
+17,"Rioja, La",26,"Rioja, La",N
+18,"Ceuta","51","Ceuta",S
+19,"Melilla","52","Melilla",S
