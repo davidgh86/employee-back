@@ -33,10 +33,10 @@ async function addAdvert(req, res) {
 
   const body = req.body;
 
-  if (!body.quote || !body.author) {
+  if (!advertIsValid(body)) {
     res.status(422).json({
       error: true,
-      data: "Missing required parameter(s): 'body' or 'author'"
+      data: "Missing required parameter(s)"
     });
 
     return;
@@ -44,13 +44,12 @@ async function addAdvert(req, res) {
 
   try {
 
-    const result = await model.insertAdvert(body.quote, body.author);
+    const result = await model.insertAdvert(body);
     res.json({ 
       success: true, 
       data: {
         id:     result._id,
-        author: body.author,
-        quote:  body.quote
+        ...body
       } 
     });
 
@@ -58,6 +57,11 @@ async function addAdvert(req, res) {
     res.status(500).json({ success: false, error: "Unknown error."});
   }
 
+}
+
+function advertIsValid(advert){
+  // TODO
+  return true;
 }
 
 module.exports = {
