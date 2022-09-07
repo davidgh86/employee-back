@@ -46,18 +46,30 @@ async function setAdvertMapping () {
           level2: {
             type: "integer"
           },
-          name: {
-            type: "keyword",
-            index: false
+          level3: {
+            type: "integer"
           }
         },
-        
       },
       description: {
         type: "text"
       },
       category: {
-        type: "keyword"
+        type: "nested",
+        properties: {
+          level0: {
+            type: "keyword"
+          },
+          level1: {
+            type: "keyword"
+          },
+          level2: {
+            type: "keyword"
+          },
+          level3: {
+            type: "keyword"
+          }
+        },
       }
     };
   

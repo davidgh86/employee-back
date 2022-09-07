@@ -1,0 +1,64 @@
+{   
+    "employ" :{
+        "desc" : "employ", "selected": false,
+        "subfields": {
+            "law": {"desc": "law and jurisdiction", "selected": false },
+            "paperwork": {
+                "desc":"paperwork", "selected": false,
+                "subfields": {
+                    "secretariat" : { "desc" : "secretariat", "selected": false},
+                    "receptionists" : { "desc" : "receptionists", "selected": false},
+                    "paperwork" : { "desc" : "paperwork", "selected": false}
+                }
+            },
+            "farming" : { "desc" : "farming", "selected": false},
+            "arquitecture" : { "desc" : "arquitecture", "selected": false},
+            "desing": { 
+                "desc" : "arts and desing", "selected": false,
+                "subfields" : {
+                    "web": { "desc" : "web desing", "selected": false},
+                    "fashion": { "desc" : "fashion design", "selected": false},
+                    "graphic": { "desc" : "graphic design", "selected": false},
+                    "shows": { "desc" : "shows", "selected": false},
+                    "restaurateur": { "desc" : "restaurateur", "selected": false}
+                }
+            },
+            "catering": { "desc" : "catering and hotel industry", "selected": false},
+            "sales": { "desc" : "sales agents", "selected": false},
+            "building":{ "desc" : "building", "selected": false},
+            "consultancy":{ "desc" : "consultancy", "selected": false},
+            "accounting":{ "desc" : "accounting", "selected": false},
+            "quality": { "desc" : "quality assurance", "selected": false},
+            "management":{ "desc" : "management", "selected": false},
+            "education":{ "desc" : "education", "selected": false},
+            "finances": {
+                "desc" : "finances", "selected": false,
+                "subfields" : {
+                    "audit": { "desc" : "audit", "selected": false },
+                    "banking": { "desc" : "banking", "selected": false },
+                    "stocks": { "desc" : "stocks", "selected": false },
+                    "insurance": { "desc" : "insurance", "selected": false },
+                    "economics": { "desc" : "economics", "selected": false }
+                }
+            },
+            "it": { "desc" :"it", "selected": false},
+            "engineering": { "desc" :"engineering", "selected": false},
+            "science": { "desc" :"research and science", "selected": false},
+            "marketing": { "desc" :"marketing", "selected": false},
+            "messaging": { "desc" :"messaging", "selected": false},
+            "professional": { "desc" :"professional services", "selected": false},
+            "journalism": { "desc" :"journalism", "selected": false},
+            "advertising": { "desc" :"advertising", "selected": false},
+            "hhrr": { "desc" :"human resources", "selected": false},
+            "healhcare": { "desc" :"healhcare", "selected": false},
+            "domestic": { "desc" :"domestic service", "selected": false},
+            "social": { "desc" :"social services", "selected": false},
+            "translation": { "desc" :"translation and interpreting", "selected": false},
+            "transports": { "desc" :"transports", "selected": false},
+            "turism": { "desc" :"turism", "selected": false},
+            "surveillance": { "desc" :"surveillance", "selected": false},
+            "porters": { "desc" :"porter's lodge", "selected": false},
+            "others": { "desc" :"others", "selected": false}
+        }
+    }
+}

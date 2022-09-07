@@ -1,8 +1,8 @@
 const express      = require("express");
 const cors         = require("cors");
 const bodyParser   = require("body-parser");
-//const routes       = require("./routes");
 const localities   = require("./routes/localities.js");
+const categories   = require("./routes/categories.js");
 const adverts      = require("./routes/adverts.js");
                      require("dotenv").config();
 
@@ -22,6 +22,7 @@ function start() {
              .use(bodyParser.json())
              .use("/api/adverts", adverts)
              .use("/api/localities", localities)
+             .use("/api/categories", categories)
              .use((_req, res) => res.status(404).json({ success: false,error: "Route not found" }))
              .listen(port, () => console.log(`Server ready on port ${port}`));
 

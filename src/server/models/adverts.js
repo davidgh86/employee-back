@@ -1,24 +1,12 @@
 const { esclient, index } = require("../../elastic");
 
-async function getAdverts(req) {
+async function findAdverts(queryParams) {
 
-  const query = {
-    query: {
-      match: {
-        quote: {
-          query: req.text,
-        }
-      }
-    }
-  }
+  const query = buildSearchQuery(queryParams)
 
   const { hits } = await esclient.search({
     index: index,
-    query: {
-      match: {
-        quote: req.text
-      }
-    }
+    query: query
   });
 
   const results = hits.total.value;
@@ -45,6 +33,6 @@ async function insertAdvert(data) {
 }
 
 module.exports = {
-  getAdverts,
+  findAdverts,
   insertAdvert
 }
