@@ -13,7 +13,10 @@ const server  = require("./server");
 
     if (!elasticIndex) {
       await elastic.createIndex(elastic.index);
-      await elastic.setAdvertMapping();
+    }
+    await elastic.setAdvertMapping();
+    if (process.env.NODE_END==="development" && process.env.BULK_DATA==="true"){
+      await elastic.loadSampleData()
     }
 
     server.start();

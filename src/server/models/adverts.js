@@ -1,8 +1,20 @@
 const { esclient, index } = require("../../elastic");
+const { buildElasticSearch, advertHitToAdvert } = require("../../mapper/elasticSearchQueryMapper")
 
 async function findAdverts(queryParams) {
 
-  const query = buildSearchQuery(queryParams)
+  const query = buildElasticSearch(queryParams)
+
+  const results = await executeQuery(query)
+
+  const adverts = results.values
+      .map((hit) => advertHitToAdvert(hit))
+
+  return adverts
+
+}
+
+async function executeQuery(query) {
 
   const { hits } = await esclient.search({
     index: index,
@@ -10,13 +22,7 @@ async function findAdverts(queryParams) {
   });
 
   const results = hits.total.value;
-  const values  = hits.hits.map((hit) => {
-    return {
-      id:     hit._id,
-      data:  hit._source.data,
-      score:  hit._score
-    }
-  });
+  const values  = hits.hits
 
   return {
     results,
@@ -33,6 +39,7 @@ async function insertAdvert(data) {
 }
 
 module.exports = {
+  executeQuery,
   findAdverts,
   insertAdvert
 }

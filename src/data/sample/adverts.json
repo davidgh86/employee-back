@@ -1,0 +1,47 @@
+[
+    {
+        "title": "titulo",
+        "type": "offer",
+        "place": {
+            "level0": 5,
+            "level1": 6,
+            "level2": 7
+        },
+        "description": "description",
+        "category": {
+            "level0": "employ",
+            "level1": "it",
+            "level2": "developer"
+        }
+    },
+    {
+        "title": "titulo2",
+        "type": "apply",
+        "place": {
+            "level0": 6,
+            "level1": 7,
+            "level2": 8
+        },
+        "description": "description2",
+        "category": {
+            "level0": "employ",
+            "level1": "desing",
+            "level2": "web"
+        }
+    },
+    {
+        "title": "titlewithdescription",
+        "type": "apply",
+        "place": {
+            "level0": 6,
+            "level1": 7,
+            "level2": 8
+        },
+        "description": "titlewithdescription",
+        "category": {
+            "level0": "employ",
+            "level1": "desing",
+            "level2": "web"
+        }
+    }
+]

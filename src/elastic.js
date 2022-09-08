@@ -116,10 +116,19 @@ function checkConnection() {
   });
 }
 
+async function loadSampleData(){
+  const sampleAdverts = require('../src/data/sample/adverts.json');
+
+  const operations = sampleAdverts.flatMap(doc => [{ index: { _index: index } }, doc])
+
+  await esclient.bulk({ refresh: true, operations })
+}
+
 module.exports = {
   esclient,
   setAdvertMapping,
   checkConnection,
   createIndex,
+  loadSampleData,
   index,
 };
