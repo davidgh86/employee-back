@@ -1,12 +1,30 @@
 const { buildElasticSearch, advertHitToAdvert } = require('../../src/mapper/elasticSearchQueryMapper');
 
-test('build request query to elasticSearchAdvert query', () => {
+test('build request query test to elasticSearchAdvert query', () => {
 
   const result = buildElasticSearch({text: "text3"})
   expect(result).toEqual({
-    multi_match: {
-      query: "text3",
-      fields: ["title", "description"]
+    bool:{
+      must: {
+        multi_match: {
+          query: "text3",
+          fields: ["title", "description"]
+        }
+      }
+    }
+  });
+});
+
+test('build request query by locality code to elasticSearchAdvert query', () => {
+
+  const result = buildElasticSearch({localityCode: "1,2,3"})
+  expect(result).toEqual({
+    bool:{
+      filter: [
+        { term : {"place.level0": 1}},
+        { term : {"place.level1": 2}},
+        { term : {"place.level2": 3}}
+      ]
     }
   });
 });

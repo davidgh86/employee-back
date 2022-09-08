@@ -16,17 +16,22 @@ async function findAdverts(queryParams) {
 
 async function executeQuery(query) {
 
-  const { hits } = await esclient.search({
-    index: index,
-    query: query
-  });
+  try {
+    const { hits } = await esclient.search({
+      index: index,
+      query: query
+    });
 
-  const results = hits.total.value;
-  const values  = hits.hits
+    const results = hits.total.value;
+    const values  = hits.hits
 
-  return {
-    results,
-    values
+    return {
+      results,
+      values
+    } 
+  } catch (error) {
+    console.log(error.message)
+    throw error
   }
 
 }

@@ -1,12 +1,35 @@
 function buildElasticSearch(queryFilter){
-    let result = {}
+    const result = {
+        bool:{}
+    }
     if (queryFilter.text) {
-        result = {
-            multi_match: {
+        result.bool.must = {
+            multi_match : {
                 query: queryFilter.text,
                 fields: ["title", "description"]
             }
         }
+    }
+
+    if (queryFilter.localityCode) {
+        const localityFilter = getLocalityFilter(queryFilter.localityCode)
+        if (localityFilter) {
+            result.bool.filter = localityFilter
+        }
+    }
+
+    return result
+}
+
+function getLocalityFilter(localityCodeString) {
+    const result = []
+    const codes = localityCodeString.split(",").filter(cod => !!cod)
+    for (let idx = 0; idx < codes.length; idx++){
+        const term = {}
+        term["place.level"+idx] = parseInt(codes[idx])
+        result.push({
+            term: term
+        })
     }
     return result
 }
