@@ -1,21 +1,60 @@
+const { query } = require("express")
+
 function buildElasticSearch(queryFilter){
     const result = {
         bool:{}
     }
     if (queryFilter.text) {
-        result.bool.must = {
-            multi_match : {
-                query: queryFilter.text,
-                fields: ["title", "description"]
+        result.bool.must = [
+            {
+                multi_match : {
+                    query: queryFilter.text,
+                    fields: ["title", "description"]
+                }
             }
-        }
+        ]
     }
 
     if (queryFilter.localityCode) {
         const localityFilter = getLocalityFilter(queryFilter.localityCode)
         if (localityFilter) {
-            result.bool.filter = localityFilter
+            if (!result.bool.must){
+                result.bool.must=[]
+            }
+            result.bool.must.push({
+                nested : {
+                    path: "place",
+                    query: {
+                        bool:{
+                            filter: localityFilter
+                        }
+                    }
+                }
+            })
         }
+    }
+
+    if (queryFilter.category) {
+        const categoryFilter = getCategoryFilter(queryFilter.category)
+        if (categoryFilter) {
+            if (!result.bool.must){
+                result.bool.must=[]
+            }
+            result.bool.must.push({
+                nested : {
+                    path: "category",
+                    query: {
+                        bool:{
+                            filter: categoryFilter
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    if (queryFilter.type) {
+        result.bool.filter = {term: { type: queryFilter.type}}
     }
 
     return result
@@ -27,6 +66,19 @@ function getLocalityFilter(localityCodeString) {
     for (let idx = 0; idx < codes.length; idx++){
         const term = {}
         term["place.level"+idx] = parseInt(codes[idx])
+        result.push({
+            term: term
+        })
+    }
+    return result
+}
+
+function getCategoryFilter(categoryCodeString) {
+    const result = []
+    const codes = categoryCodeString.split(".").filter(cod => !!cod)
+    for (let idx = 0; idx < codes.length; idx++){
+        const term = {}
+        term["category.level"+idx] = codes[idx]
         result.push({
             term: term
         })

@@ -1,32 +1,154 @@
 const { buildElasticSearch, advertHitToAdvert } = require('../../src/mapper/elasticSearchQueryMapper');
 
-test('build request query test to elasticSearchAdvert query', () => {
+test('build request query by locality code to elasticSearchAdvert query', () => {
 
-  const result = buildElasticSearch({text: "text3"})
-  expect(result).toEqual({
-    bool:{
-      must: {
-        multi_match: {
-          query: "text3",
-          fields: ["title", "description"]
-        }
+  const result = buildElasticSearch({
+    text:"titulo2",
+  })
+  expect(result).toEqual(
+    {
+      bool: {
+        must: [
+          {
+            multi_match: {
+              query: "titulo2",
+              fields: ["title", "description"]
+            }
+          }
+        ]
       }
     }
-  });
+  );
 });
+
 
 test('build request query by locality code to elasticSearchAdvert query', () => {
 
-  const result = buildElasticSearch({localityCode: "1,2,3"})
-  expect(result).toEqual({
-    bool:{
-      filter: [
-        { term : {"place.level0": 1}},
-        { term : {"place.level1": 2}},
-        { term : {"place.level2": 3}}
-      ]
+  const result = buildElasticSearch({
+	  localityCode:"12,36",
+  })
+  expect(result).toEqual(
+    {
+      bool: {
+          must: [
+              {
+                  nested : {
+                      path: "place",
+                      query: {
+                          bool:{
+                              filter: [
+                                  { term : {"place.level0": 12}},
+                                  { term : {"place.level1": 36}}
+                              ]
+                          }
+                      }
+                  }
+              }
+          ]
+      }
     }
-  });
+  );
+});
+
+
+test('build request query by locality code to elasticSearchAdvert query', () => {
+
+  const result = buildElasticSearch({
+    category:"employ.sales"
+  })
+  expect(result).toEqual(
+    {
+      bool: {
+          must: [
+              {
+                  nested : {
+                      path: "category",
+                      query: {
+                          bool:{
+                              filter: [
+                                  { term : {"category.level0": "employ"}},
+                                  { term : {"category.level1": "sales"}}
+                              ]
+                          }
+                      }
+                  }
+              },
+          ]
+      }
+    }
+  );
+});
+
+
+test('build request query by locality code to elasticSearchAdvert query', () => {
+
+  const result = buildElasticSearch({
+    type:"offer"
+  })
+  expect(result).toEqual(
+    {
+      bool: {
+          filter: {
+              term: { type: "offer"}
+          }
+      }
+    }
+  );
+});
+
+
+test('build request query by locality code to elasticSearchAdvert query', () => {
+
+  const result = buildElasticSearch({
+    text:"titulo2",
+	  localityCode:"12,36",
+    category:"employ.sales",
+    type:"offer",
+    dateLimit:"2d"
+  })
+  expect(result).toEqual(
+    {
+      bool: {
+          must: [
+              {
+                  multi_match: {
+                      query: "titulo2",
+                      fields: ["title", "description"]
+                  }
+              },
+              {
+                  nested : {
+                      path: "place",
+                      query: {
+                          bool:{
+                              filter: [
+                                  { term : {"place.level0": 12}},
+                                  { term : {"place.level1": 36}}
+                              ]
+                          }
+                      }
+                  }
+              },
+              {
+                  nested : {
+                      path: "category",
+                      query: {
+                          bool:{
+                              filter: [
+                                  { term : {"category.level0": "employ"}},
+                                  { term : {"category.level1": "sales"}}
+                              ]
+                          }
+                      }
+                  }
+              },
+          ],
+          filter: {
+              term: { type: "offer"}
+          }
+      }
+    }
+  );
 });
 
 

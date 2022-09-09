@@ -18,7 +18,7 @@ async function findAdverts(req, res) {
   try {
 
     const result = await model.findAdverts(req.query);
-    res.json({ success: true, data: result });
+    res.json(result);
 
   } catch (err) {
     res.status(500).json({ success: false, error: "Unknown error."});
