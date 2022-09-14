@@ -96,6 +96,7 @@ async function setAdvertMapping () {
 function checkConnection() {
   return new Promise(async (resolve) => {
 
+    console.log("Url ------>"+ process.env.ELASTIC_URL)
     console.log("Checking connection to ElasticSearch...");
     let isConnected = false;
 
