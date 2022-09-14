@@ -3,8 +3,6 @@ const { Client } = require("@elastic/elasticsearch");
 
 const elasticUrl = process.env.ELASTIC_URL || "http://localhost:9200";
 
-console.log("Elastic url: ---> " + elasticUrl)
-
 const esclient   = new Client({ node: elasticUrl });
 const index      = "adverts";
 
@@ -16,7 +14,7 @@ const index      = "adverts";
 
 async function createIndex(index) {
   try {
-
+    
     await esclient.indices.create({ index });
     console.log(`Created index ${index}`);
 
