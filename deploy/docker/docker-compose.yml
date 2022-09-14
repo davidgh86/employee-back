@@ -18,7 +18,8 @@ services:
             git pull && 
             npm install &&
             npm run build_prod &&
-            cd /app/employee-back && 
+            cd /app/employee-back &&
+            git pull &&
             npm install &&
             cp -R /front/employee/dist/* /app/employee-back/dist &&
             npm run start"
