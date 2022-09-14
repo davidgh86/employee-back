@@ -16,8 +16,14 @@ const port = process.env.NODE_PORT || 3000;
  */
 
 function start() {
-
-  return  app.use(cors())
+  let app_builder
+  if (process.env.NODE_ENV==="development") {
+    app_builder = app.use(cors())
+  } else {
+    app_builder = app
+  }
+  return  app_builder
+             .use("/", express.static('dist'))
              .use(bodyParser.urlencoded({ extended: false }))
              .use(bodyParser.json())
              .use("/api/adverts", adverts)

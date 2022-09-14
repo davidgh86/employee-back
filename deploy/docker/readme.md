@@ -1,0 +1,1 @@
+docker build -t employee --build-arg GITHUB_TOKEN=<github_tokens> .

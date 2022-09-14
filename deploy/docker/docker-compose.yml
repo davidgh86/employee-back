@@ -1,0 +1,53 @@
+version: '3.6'
+
+services:
+
+  api:
+    image: employee
+    container_name: employee_container
+    build:
+      context: .
+      args:
+        GITHUB_TOKEN: ${GITHUB_TOKEN}
+    ports:
+      - 3500:3000
+    environment:
+     - ELASTIC_URL=http://elasticsearch:9200
+    command: >
+      sh -c "cd /front/employee && 
+            git pull && 
+            npm install &&
+            npm run build_prod &&
+            cd /app/employee-back && 
+            npm install &&
+            cp -R /front/employee/dist/* /app/employee-back/dist &&
+            npm run start"
+    links:
+        - elasticsearch
+    depends_on:
+        - elasticsearch
+    networks: 
+      - esnet
+
+  elasticsearch:
+    container_name: tqd-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    logging:
+      driver: none
+    ports:
+      - 9300:9300
+      - 9200:9200
+    networks: 
+      - esnet
+
+volumes:
+  esdata:
+
+networks:
+  esnet:
