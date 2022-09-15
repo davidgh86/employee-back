@@ -14,12 +14,36 @@ async function findAdverts(queryParams) {
 
 }
 
-async function executeQuery(query) {
+async function findAllAdverts() {
 
+  const query = {
+    match_all: {}
+  }
+
+  const sort = [
+    {
+      timestamp: "desc"
+    }
+  ]
+
+  const results = await executeQuery(query, sort)
+
+  const adverts = results.values
+      .map((hit) => advertHitToAdvert(hit))
+
+  return adverts
+
+}
+
+async function executeQuery(query, sort) {
+
+  let _sort = !!sort?sort:undefined
+  
   try {
     const { hits } = await esclient.search({
       index: index,
-      query: query
+      query: query,
+      sort: _sort
     });
 
     const results = hits.total.value;
@@ -46,5 +70,6 @@ async function insertAdvert(data) {
 module.exports = {
   executeQuery,
   findAdverts,
+  findAllAdverts,
   insertAdvert
 }

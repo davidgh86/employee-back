@@ -4,8 +4,7 @@ const server  = require("./server");
 
 
 (async function main() {
-
-  console.log("Url ------>"+ process.env.ELASTIC_URL)
+  
   const isElasticReady = await elastic.checkConnection();
 
   if (isElasticReady) {

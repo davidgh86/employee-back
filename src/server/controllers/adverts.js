@@ -25,9 +25,24 @@ async function findAdverts(req, res) {
   }
 }
 
+async function findAllAdverts(req, res) {
+  
+  try {
+
+    const result = await model.findAllAdverts();
+    res.json(result);
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Unknown error."});
+  }
+}
+
 async function addAdvert(req, res) {
 
-  const body = req.body;
+  const body = {
+    ...req.body,
+    timestamp: Math.round(Date.now() / 1000)
+  }
 
   if (!advertIsValid(body)) {
     res.status(422).json({
@@ -61,5 +76,6 @@ function advertIsValid(advert){
 
 module.exports = {
   findAdverts,
+  findAllAdverts,
   addAdvert
 };

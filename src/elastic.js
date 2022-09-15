@@ -2,7 +2,6 @@ const { Client } = require("@elastic/elasticsearch");
                    require("dotenv").config();
 
 const elasticUrl = process.env.ELASTIC_URL || "http://localhost:9200";
-console.log("Url ------>"+ elasticUrl)
 
 const esclient   = new Client({ node: elasticUrl });
 const index      = "adverts";
@@ -72,6 +71,10 @@ async function setAdvertMapping () {
             type: "keyword"
           }
         },
+      },
+      timestamp: {
+        type: "date",
+        format: "epoch_second"
       }
     };
   
@@ -97,8 +100,8 @@ async function setAdvertMapping () {
 function checkConnection() {
   return new Promise(async (resolve) => {
 
-    console.log("Url ------>"+ process.env.ELASTIC_URL)
     console.log("Checking connection to ElasticSearch...");
+    
     let isConnected = false;
 
     while (!isConnected) {
