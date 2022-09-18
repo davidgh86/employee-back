@@ -3,9 +3,9 @@
         "title": "titulo",
         "type": "offer",
         "place": {
-            "level0": 5,
-            "level1": 6,
-            "level2": 7
+            "level0": 7,
+            "level1": 5,
+            "level2": 80
         },
         "description": "description",
         "category": {
@@ -19,9 +19,9 @@
         "title": "titulo2",
         "type": "apply",
         "place": {
-            "level0": 6,
-            "level1": 7,
-            "level2": 8
+            "level0": 10,
+            "level1": 3,
+            "level2": 140
         },
         "description": "description2",
         "category": {
@@ -35,9 +35,9 @@
         "title": "titlewithdescription",
         "type": "offer",
         "place": {
-            "level0": 6,
-            "level1": 7,
-            "level2": 8
+            "level0": 10,
+            "level1": 3,
+            "level2": 140
         },
         "description": "titlewithdescription",
         "category": {

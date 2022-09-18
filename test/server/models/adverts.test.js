@@ -36,9 +36,9 @@ test('find a simple advert executing raw query', async () => {
             query: {
                 bool:{
                     filter: [
-                      { term : {"place.level0": 5}},
-                      { term : {"place.level1": 6}},
-                      { term : {"place.level2": 7}}
+                      { term : {"place.level0": 7}},
+                      { term : {"place.level1": 5}},
+                      { term : {"place.level2": 80}}
                     ]
                   }
             }
@@ -67,8 +67,8 @@ test('find a simple advert executing raw query', async () => {
                         query: {
                             bool:{
                                 filter: [
-                                    { term : {"place.level0": 6}},
-                                    { term : {"place.level1": 7}}
+                                    { term : {"place.level0": 10}},
+                                    { term : {"place.level1": 3}}
                                 ]
                             }
                         }
