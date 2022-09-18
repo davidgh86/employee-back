@@ -215,12 +215,17 @@ test('find advert executing find advert with text in description and title', asy
     expect(result[0].title).toBe("titlewithdescription")
 });
 
-// test('find advert executing find advert with locality code', async () => {
-//     const query = {
-//         localityCode:"5,6,7"
-//     }
-//     const result = await advertService.findAdverts(query);
-//     expect(result.length).toBe(1);
-//     expect(result[0].description).toBe("titlewithdescription")
-// });
+test('find advert executing find advert with text in description and title', async () => {
+    const query = {
+        text:"titlewithdescription"
+    }
+    const result = await advertService.findAdverts(query);
+    expect(result.length).toBe(1);
+    expect(result[0].description).toBe("titlewithdescription")
+    expect(result[0].title).toBe("titlewithdescription")
+
+    const byId = await advertService.findAdvertById(result[0].id)
+    expect(result[0]).toEqual(byId)
+});
+
 

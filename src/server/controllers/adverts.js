@@ -25,6 +25,16 @@ async function findAdverts(req, res) {
   }
 }
 
+async function findAdvertById(req, res) {
+  try {
+    const result = await model.findAdvertById(req.params.id);
+    res.json(result);
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Unknown error."});
+  }
+}
+
 async function findAllAdverts(req, res) {
   
   try {
@@ -77,5 +87,6 @@ function advertIsValid(advert){
 module.exports = {
   findAdverts,
   findAllAdverts,
+  findAdvertById,
   addAdvert
 };

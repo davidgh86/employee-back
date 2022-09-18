@@ -14,6 +14,16 @@ async function findAdverts(queryParams) {
 
 }
 
+async function findAdvertById(id) {
+  const result = await esclient.get({
+    index,
+    id:id
+  })
+
+  return advertHitToAdvert(result)
+
+}
+
 async function findAllAdverts() {
 
   const query = {
@@ -69,6 +79,7 @@ async function insertAdvert(data) {
 
 module.exports = {
   executeQuery,
+  findAdvertById,
   findAdverts,
   findAllAdverts,
   insertAdvert
