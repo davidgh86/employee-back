@@ -63,12 +63,13 @@ async function addAdvert(req, res) {
     return;
   }
 
+  const advert = generateAdvertWithImage(body)
+
   try {
 
-    const result = await model.insertAdvert(body);
+    const result = await model.insertAdvert(advert);
     res.json({
-        id: result._id,
-        ...body 
+        id: result._id
     });
 
   } catch (err) {

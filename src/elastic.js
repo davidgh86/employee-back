@@ -72,6 +72,18 @@ async function setAdvertMapping () {
           }
         },
       },
+      image: {
+        type: "nested",
+        enabled: false,
+        properties:{
+          data: {
+            type: "binary"
+          },
+          mymetype: {
+            type: "keyword"
+          }
+        }
+      },
       timestamp: {
         type: "date",
         format: "epoch_second"
