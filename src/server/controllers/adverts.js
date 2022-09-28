@@ -1,6 +1,7 @@
 const model = require("../models/adverts");
 
 const { buildElasticSearch } = require("../../mapper/elasticSearchQueryMapper")
+const convert = require("../../utils/imageConverter")
 
 
 async function findAdverts(req, res) {
@@ -49,10 +50,18 @@ async function findAllAdverts(req, res) {
 
 async function addAdvert(req, res) {
 
-  const body = {
-    ...req.body,
-    timestamp: Math.round(Date.now() / 1000)
+  const body = JSON.parse(req.body.advertData)
+
+  const mimetype = req.file.mimetype
+  const bufferFileData = req.file.buffer
+
+  const image = {
+    data: bufferFileData.toString('base64'),
+    mimetype: mimetype
   }
+
+  // const a = await convert(bufferFileData)
+  // console.log(a)
 
   if (!advertIsValid(body)) {
     res.status(422).json({
@@ -63,7 +72,11 @@ async function addAdvert(req, res) {
     return;
   }
 
-  const advert = generateAdvertWithImage(body)
+  const advert = {
+    ...body, 
+    image, 
+    timestamp: Math.round(Date.now() / 1000)
+  }
 
   try {
 

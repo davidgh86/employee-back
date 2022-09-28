@@ -6,6 +6,8 @@ const categories   = require("./routes/categories.js");
 const adverts      = require("./routes/adverts.js");
                      require("dotenv").config();
 
+//const formData = require("express-form-data")
+
 const app  = express();
 const port = process.env.NODE_PORT || 3000;
 
@@ -26,6 +28,7 @@ function start() {
              .use("/", express.static('dist'))
              .use(bodyParser.urlencoded({ extended: false }))
              .use(bodyParser.json())
+             //.use(formData.parse())
              .use("/api/adverts", adverts)
              .use("/api/localities", localities)
              .use("/api/categories", categories)

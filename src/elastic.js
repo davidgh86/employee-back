@@ -79,8 +79,8 @@ async function setAdvertMapping () {
           data: {
             type: "binary"
           },
-          mymetype: {
-            type: "keyword"
+          mimetype: {
+            type: "text"
           }
         }
       },
