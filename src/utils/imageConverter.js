@@ -3,7 +3,8 @@ const Jimp = require('jimp')
 
 async function convert(data) {
 
-    let imgBuffer = Buffer.from(data, 'utf-8');
+    const uri = data.split(';base64,').pop()
+    let imgBuffer = Buffer.from(uri, 'base64');
     const u8 = await sharp(imgBuffer)
         .avif({ lossless: true })
         .toBuffer()
