@@ -87,9 +87,15 @@ function getCategoryFilter(categoryCodeString) {
 }
 
 function advertHitToAdvert(hit) {
+    const hitData = hit._source
+    const image = hitData.image
+    const dataSrc = `data:${image.mimetype};base64,${image.data}`
+
+    delete hitData.image
     return {
         id: hit._id,
-        ...hit._source
+        ...hitData,
+        img: dataSrc
     }
 }
 
