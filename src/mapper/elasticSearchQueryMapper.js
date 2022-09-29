@@ -88,15 +88,27 @@ function getCategoryFilter(categoryCodeString) {
 
 function advertHitToAdvert(hit) {
     const hitData = hit._source
-    const image = hitData.image
-    const dataSrc = `data:${image.mimetype};base64,${image.data}`
 
-    delete hitData.image
-    return {
-        id: hit._id,
-        ...hitData,
-        img: dataSrc
+    let dataSrc = undefined
+    
+    if (hitData.image) {
+        const image = hitData.image
+        dataSrc = `data:${image.mimetype};base64,${image.data}`
+
+        delete hitData.image
     }
+    result = {
+        id: hit._id,
+        ...hitData
+    }
+
+    if (dataSrc) {
+        return {
+            ...result,
+            img: dataSrc
+        }
+    }
+    return result
 }
 
 module.exports = {
