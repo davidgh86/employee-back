@@ -5,6 +5,8 @@ const routes     = express.Router();
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() })
 
-routes.route("/").post(upload.single("img"), controller.createUser);
+routes.route("/register").post(upload.single("img"), controller.createUser);
+routes.route("/login").post(controller.login);
+routes.route("/:userId").post(controller.getUserData);
 
 module.exports = routes;

@@ -1,20 +1,24 @@
 const User = require("../../mongo/model/user")
 
+async function getUserById(userId) {
+    return await User.findById(userId)
+}
+
 async function getUserByEmail(email) {
-    return await User.findById(email)
+    return await User.findOne({email: email})
 }
 
 async function createUser({
     email,
     telephone,
-    passwordHash,
+    password,
     roles,
     img}) {
     
     return await User.create({
         email,
         telephone,
-        passwordHash,
+        password,
         roles,
         img})
 }
@@ -22,7 +26,7 @@ async function createUser({
 async function updateUser({
     email,
     telephone,
-    passwordHash,
+    password,
     roles,
     img}) {
     return await User.findOneAndUpdate(
@@ -32,7 +36,7 @@ async function updateUser({
         {
             email,
             telephone,
-            passwordHash,
+            password,
             roles,
             img
         }
@@ -40,6 +44,7 @@ async function updateUser({
 }
 
 module.exports = {
+    getUserById,
     getUserByEmail,
     createUser,
     updateUser
