@@ -3,6 +3,7 @@ const cors         = require("cors");
 const bodyParser   = require("body-parser");
 const localities   = require("./routes/localities.js");
 const categories   = require("./routes/categories.js");
+const users   = require("./routes/users.js");
 const adverts      = require("./routes/adverts.js");
                      require("dotenv").config();
 
@@ -32,6 +33,7 @@ function start() {
              .use("/api/adverts", adverts)
              .use("/api/localities", localities)
              .use("/api/categories", categories)
+             .use("/api/users", users)
              .use((_req, res) => res.status(404).json({ success: false,error: "Route not found" }))
              .listen(port, () => console.log(`Server ready on port ${port}`));
 

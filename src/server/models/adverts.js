@@ -1,4 +1,4 @@
-const { esclient, index } = require("../../elastic");
+const { esclient, index } = require("../../elastic/model/advert");
 const { buildElasticSearch, advertHitToAdvert } = require("../../mapper/elasticSearchQueryMapper")
 
 async function findAdverts(queryParams) {

@@ -1,9 +1,4 @@
-const { Client } = require("@elastic/elasticsearch");
-                   require("dotenv").config();
-
-const elasticUrl = process.env.ELASTIC_URL || "http://localhost:9200";
-
-const esclient   = new Client({ node: elasticUrl });
+const esclient   = require("../elasticConfig")
 const index      = "adverts";
 
 /**
@@ -12,7 +7,7 @@ const index      = "adverts";
  * @description Creates an index in ElasticSearch.
  */
 
-async function createIndex(index) {
+async function createIndex() {
   try {
     
     await esclient.indices.create({ index });
@@ -103,50 +98,33 @@ async function setAdvertMapping () {
   }
 }
 
-/**
- * @function checkConnection
- * @returns {Promise<Boolean>}
- * @description Checks if the client is connected to ElasticSearch
- */
-
-function checkConnection() {
-  return new Promise(async (resolve) => {
-
-    console.log("Checking connection to ElasticSearch...");
-    
-    let isConnected = false;
-
-    while (!isConnected) {
-      try {
-
-        await esclient.cluster.health({});
-        console.log("Successfully connected to ElasticSearch");
-        isConnected = true;
-
-      // eslint-disable-next-line no-empty
-      } catch (_) {
-
-      }
-    }
-
-    resolve(true);
-
-  });
+async function existIndex(){
+  return await esclient.indices.exists({index: index});
 }
 
 async function loadSampleData(){
-  const sampleAdverts = require('../src/data/sample/adverts.json');
+  const sampleAdverts = require('../../data/sample/adverts.json');
 
   const operations = sampleAdverts.flatMap(doc => [{ index: { _index: index } }, doc])
 
   await esclient.bulk({ refresh: true, operations })
 }
 
+async function init() {
+  const elasticIndex = await existIndex();
+
+  if (!elasticIndex) {
+    await createIndex();
+  }
+  await setAdvertMapping();
+  if (process.env.NODE_ENV==="development" && process.env.BULK_DATA==="true"){
+    await elastic.loadSampleData()
+  }
+}
+
 module.exports = {
-  esclient,
   setAdvertMapping,
-  checkConnection,
   createIndex,
   loadSampleData,
-  index,
+  init
 };

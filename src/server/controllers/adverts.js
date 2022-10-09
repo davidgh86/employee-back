@@ -1,8 +1,6 @@
 const model = require("../models/adverts");
 
 const { buildElasticSearch } = require("../../mapper/elasticSearchQueryMapper")
-const convert = require("../../utils/imageConverter")
-
 
 async function findAdverts(req, res) {
   const query  = buildElasticSearch(req.query);

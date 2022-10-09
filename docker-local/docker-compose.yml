@@ -1,6 +1,16 @@
 version: '3.7'
 
 services:
+  mongo:
+    image: mongo:6.0.2
+    ports:
+      - 27017:27017
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: mongoadmin
+    #   MONGO_INITDB_ROOT_PASSWORD: mongoadmin
+    #   MONGO_INITDB_DATABASE: femploy
+    # volumes:
+    #   - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   # Elasticsearch Docker Images: https://www.docker.elastic.co/
   elasticsearch:
