@@ -39,7 +39,8 @@ async function login(req, res) {
   if (!validPassword) return res.status(400).json({ error: 'Not valid user or password' })
   
   const token = jwt.sign({
-    email: user.email
+    email: user.email,
+    timestamp: Date.now()
   }, process.env.TOKEN_SECRET)
 
   res.json({ token });
@@ -70,6 +71,17 @@ async function getUserData(req, res) {
   })
 }
 
+async function getMe(req, res) {
+
+  const user = req.user
+  
+  res.json({
+    email: user.email,
+    telephone: user.telephone,
+    img: user.img
+  })
+}
+
 function encryptPassword(user){
   return new Promise((resolve, reject) => {
     if(user.password){
@@ -91,5 +103,6 @@ function encryptPassword(user){
 module.exports = {
   createUser,
   login,
-  getUserData
+  getUserData,
+  getMe
 };

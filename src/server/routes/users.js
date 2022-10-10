@@ -7,6 +7,7 @@ const upload = multer({ storage: multer.memoryStorage() })
 
 routes.route("/register").post(upload.single("img"), controller.createUser);
 routes.route("/login").post(controller.login);
+routes.route("/me").post(controller.getMe);
 routes.route("/:userId").post(controller.getUserData);
 
 module.exports = routes;
