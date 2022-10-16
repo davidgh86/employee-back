@@ -68,6 +68,7 @@ async function getUserData(req, res) {
   const user = await model.getUserById(userId)
   
   res.json({
+    name: user.name,
     email: user.email,
     telephone: user.telephone,
     img: user.img
@@ -79,6 +80,7 @@ async function getMe(req, res) {
   const user = req.user
   
   res.json({
+    name: user.name,
     email: user.email,
     telephone: user.telephone,
     img: user.img

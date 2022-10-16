@@ -9,6 +9,7 @@ async function getUserByEmail(email) {
 }
 
 async function createUser({
+    name,
     email,
     telephone,
     password,
@@ -16,6 +17,7 @@ async function createUser({
     img}) {
     
     return await User.create({
+        name,
         email,
         telephone,
         password,
@@ -24,6 +26,7 @@ async function createUser({
 }
 
 async function updateUser({
+    name,
     email,
     telephone,
     password,
@@ -34,6 +37,7 @@ async function updateUser({
             email: email
         },
         {
+            name,
             email,
             telephone,
             password,
