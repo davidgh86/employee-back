@@ -5,23 +5,22 @@ const jwt = require('jsonwebtoken');
 async function createUser(req, res) {
   const userData = JSON.parse(req.body.userData)
 
-  const mimeType = req.file.mimetype
-  const bufferFileData = req.file.buffer
+  if (req.file) {
+    const mimeType = req.file.mimetype
+    const bufferFileData = req.file.buffer
 
-  const image = {
-    data: bufferFileData,
-    mimeType: mimeType
+    const image = {
+      data: bufferFileData,
+      mimeType: mimeType
+    }
+
+    userData.img = image
   }
 
-  const user = {
-    ...userData,
-    img: image
-  }
-
-  const userWithPassword = await encryptPassword(user);
+  const userWithPassword = await encryptPassword(userData);
   
   model.createUser(userWithPassword).then(data => {
-    res.json(data)
+    res.json({token: getToken(data.email)})
   }).catch(e => {
     console.log(e);
     res.status(400)
@@ -38,13 +37,17 @@ async function login(req, res) {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).json({ error: 'Not valid user or password' })
   
-  const token = jwt.sign({
-    email: user.email,
-    timestamp: Date.now()
-  }, process.env.TOKEN_SECRET)
+  const token = getToken(user.email)
 
   res.json({ token });
 
+}
+
+function getToken(email) {
+  return jwt.sign({
+    email: email,
+    timestamp: Date.now()
+  }, process.env.TOKEN_SECRET)
 }
 
 async function getUserData(req, res) {
