@@ -50,12 +50,13 @@ function getToken(email) {
   }, process.env.TOKEN_SECRET)
 }
 
-async function getUserData(req, res) {
+async function getUserPublicData(req, res) {
   const userId = req.params.userId
 
   const user = await model.getUserById(userId)
 
   res.json({
+    id: user.id,
     email: user.email,
     telephone: user.telephone,
     img: user.img
@@ -68,6 +69,7 @@ async function getUserData(req, res) {
   const user = await model.getUserById(userId)
   
   res.json({
+    id: user.id,
     name: user.name,
     email: user.email,
     telephone: user.telephone,
@@ -75,11 +77,30 @@ async function getUserData(req, res) {
   })
 }
 
+async function updateUserName(req, res) {
+
+  const id = req.params.userId
+  const name = req.body.name
+  const user = req.user
+
+  const updatedUser = await model.updateName(id, user.email, name)
+  
+  res.json({
+    id: updatedUser.id,
+    name: name,
+    email: updatedUser.email,
+    telephone: updatedUser.telephone,
+    img: updatedUser.img
+  })
+
+}
+
 async function getMe(req, res) {
 
   const user = req.user
   
   res.json({
+    id: user.id,
     name: user.name,
     email: user.email,
     telephone: user.telephone,
@@ -108,6 +129,9 @@ function encryptPassword(user){
 module.exports = {
   createUser,
   login,
+  getUserPublicData,
+  updateUserName,
   getUserData,
+  updateUserName,
   getMe
 };

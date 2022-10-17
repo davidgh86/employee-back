@@ -8,6 +8,10 @@ async function getUserByEmail(email) {
     return await User.findOne({email: email})
 }
 
+async function updateName(id, email, name) {
+    return await User.findOneAndUpdate({id: id, email: email}, {name: name})
+}
+
 async function createUser({
     name,
     email,
@@ -51,5 +55,6 @@ module.exports = {
     getUserById,
     getUserByEmail,
     createUser,
-    updateUser
+    updateUser,
+    updateName
 }
