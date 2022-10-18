@@ -12,6 +12,15 @@ async function updateName(id, email, name) {
     return await User.findOneAndUpdate({id: id, email: email}, {name: name})
 }
 
+async function updateRecoveryPasswordCode(email, uuid) {
+    return await User.findOneAndUpdate({email: email}, {restorePasswordUUID: uuid})
+}
+
+async function updatePassword(email, uuid, password) {
+    return await User.findOneAndUpdate({email: email, restorePasswordUUID: uuid}, {password: password, restorePasswordUUID: undefined})
+}
+
+
 async function createUser({
     name,
     email,
@@ -56,5 +65,7 @@ module.exports = {
     getUserByEmail,
     createUser,
     updateUser,
-    updateName
+    updateName,
+    updateRecoveryPasswordCode,
+    updatePassword
 }

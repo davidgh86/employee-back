@@ -1,6 +1,9 @@
 const model = require("../models/users");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { v4: uuidv4 } = require('uuid');
+const sendMail = require('../../utils/mailSender')
+      require("dotenv").config();
 
 async function createUser(req, res) {
   const userData = JSON.parse(req.body.userData)
@@ -95,6 +98,49 @@ async function updateUserName(req, res) {
 
 }
 
+async function sendMailRestorePassword(req, res) {
+
+  const email = req.body.email
+
+  const uuid = uuidv4()
+
+  const updatedUser = await model.updateRecoveryPasswordCode(email, uuid)
+  
+  sendMail(
+    updateUser.email, 
+    `Restore femploy password`,
+    `To recover password click this <a href="${process.env.BACKEND_URL}/recoverpassword/${updatedUser.restorePasswordUUID}">link</a>`
+  )
+
+  res.status(200)
+
+}
+
+async function restorePassword(req, res) {
+
+  const email = req.body.email
+
+  const uuid = req.body.uuid
+
+  const password = req.body.password
+
+  if (!user || !password) {
+    res.status(401)
+    return
+  }
+
+  const encPwd = await encryptString(password)
+  const updatedUser = await model.updatePassword(email, uuid, encPwd)
+  
+  res.json({
+    id: updatedUser.id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    telephone: updatedUser.telephone,
+    img: updatedUser.img
+  })
+}
+
 async function getMe(req, res) {
 
   const user = req.user
@@ -111,18 +157,25 @@ async function getMe(req, res) {
 function encryptPassword(user){
   return new Promise((resolve, reject) => {
     if(user.password){
-      bcrypt.hash(user.password, 10, function(err, hash) {
-        if (err){
-          reject(err)
-          return
-        } else {
-          user["password"] = hash
-          resolve(user)
-        }
-      });
+      encryptString(user.password).then(hash => {
+        user["password"] = hash
+        resolve(user)
+      }).catch(error => reject(error))
     } else {
       resolve(user)
     }
+  })
+}
+
+function encryptString(str) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(str, 10, function(err, hash) {
+      if (err){
+        reject(err)
+      } else {
+        resolve(hash)
+      }
+    });
   })
 }
 
@@ -133,5 +186,7 @@ module.exports = {
   updateUserName,
   getUserData,
   updateUserName,
-  getMe
+  getMe,
+  sendMailRestorePassword,
+  restorePassword
 };

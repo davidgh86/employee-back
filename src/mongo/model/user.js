@@ -11,7 +11,8 @@ const userSchema = new Schema({
     img: {
         data: Buffer,
         mimeType: String
-    }
+    },
+    restorePasswordUUID: { type: String }
 })
 
 
