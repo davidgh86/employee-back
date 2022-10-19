@@ -104,16 +104,18 @@ async function sendMailRestorePassword(req, res) {
 
   const uuid = uuidv4()
 
-  const updatedUser = await model.updateRecoveryPasswordCode(email, uuid)
+  await model.updateRecoveryPasswordCode(email, uuid)
   
   sendMail(
-    updateUser.email, 
+    email, 
     `Restore femploy password`,
-    `To recover password click this <a href="${process.env.BACKEND_URL}/recoverpassword/${updatedUser.restorePasswordUUID}">link</a>`
-  )
-
-  res.status(200)
-
+    `To recover password click this ${process.env.BACKEND_URL}/recoverpassword/${uuid}`
+  ).then(() => {
+    res.status(200).json({successful: true})
+  }).catch((error) => {
+    console.log(JSON.stringify(error))
+    res.status(400).json({successful: false})
+  })
 }
 
 async function restorePassword(req, res) {
@@ -124,8 +126,8 @@ async function restorePassword(req, res) {
 
   const password = req.body.password
 
-  if (!user || !password) {
-    res.status(401)
+  if (!email || !password) {
+    res.status(401).json({successful: true})
     return
   }
 

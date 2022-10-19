@@ -58,7 +58,7 @@ var Singleton = (function () {
 })();
 
 function sendMail(to, subject, text) {
-    Singleton.getInstance.sendMail(to, subject, text)
+    return Singleton.getInstance().sendMail(to, subject, text)
 }
 
 module.exports = sendMail

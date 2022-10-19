@@ -13,7 +13,7 @@ async function updateName(id, email, name) {
 }
 
 async function updateRecoveryPasswordCode(email, uuid) {
-    return await User.findOneAndUpdate({email: email}, {restorePasswordUUID: uuid})
+    return await User.updateOne({email: email}, {restorePasswordUUID: uuid})
 }
 
 async function updatePassword(email, uuid, password) {
