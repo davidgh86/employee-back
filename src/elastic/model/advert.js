@@ -67,6 +67,9 @@ async function setAdvertMapping () {
           }
         },
       },
+      userId: {
+        type: "keyword"
+      },
       image: {
         type: "nested",
         enabled: false,
@@ -126,5 +129,7 @@ module.exports = {
   setAdvertMapping,
   createIndex,
   loadSampleData,
-  init
+  init,
+  esclient,
+  index
 };

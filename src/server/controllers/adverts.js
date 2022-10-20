@@ -46,9 +46,37 @@ async function findAllAdverts(req, res) {
   }
 }
 
+async function findUserAdverts(req, res) {
+  
+  const userId = req.user.id
+
+  try {
+    const result = await model.findUserAdverts(userId);
+    res.json(result);
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Unknown error."});
+  }
+}
+
+async function findUserFavouriteAdverts(req, res) {
+  
+  const favouriteAdverts = req.user.favouriteAdverts
+
+  try {
+    const result = await model.findUserFavouriteAdverts(favouriteAdverts);
+    res.json(result);
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Unknown error."});
+  }
+}
+
 async function addAdvert(req, res) {
 
   const body = JSON.parse(req.body.advertData)
+
+  const userId = req.user.id
 
   const mimetype = req.file.mimetype
   const bufferFileData = req.file.buffer
@@ -71,7 +99,8 @@ async function addAdvert(req, res) {
   }
 
   const advert = {
-    ...body, 
+    ...body,
+    userId,
     image, 
     timestamp: Math.round(Date.now() / 1000)
   }
@@ -100,5 +129,7 @@ module.exports = {
   findAdverts,
   findAllAdverts,
   findAdvertById,
+  findUserAdverts,
+  findUserFavouriteAdverts,
   addAdvert
 };

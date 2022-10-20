@@ -12,7 +12,8 @@ const userSchema = new Schema({
         data: Buffer,
         mimeType: String
     },
-    restorePasswordUUID: { type: String }
+    restorePasswordUUID: { type: String },
+    favouriteAdverts: {type: [String]}
 })
 
 

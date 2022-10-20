@@ -12,6 +12,10 @@ async function updateName(id, email, name) {
     return await User.findOneAndUpdate({id: id, email: email}, {name: name})
 }
 
+async function updateFavourites(id, favouriteAdverts) {
+    return await User.updateOne({id: id}, {favouriteAdverts: favouriteAdverts})
+}
+
 async function updateRecoveryPasswordCode(email, uuid) {
     return await User.updateOne({email: email}, {restorePasswordUUID: uuid})
 }
@@ -67,5 +71,6 @@ module.exports = {
     updateUser,
     updateName,
     updateRecoveryPasswordCode,
-    updatePassword
+    updatePassword,
+    updateFavourites
 }

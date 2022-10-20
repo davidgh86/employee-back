@@ -95,6 +95,15 @@ async function updateUserName(req, res) {
     telephone: updatedUser.telephone,
     img: updatedUser.img
   })
+}
+
+async function updateUserFavouriteAdverts(req, res) {
+  
+  const advertsId = req.body.advertsId
+
+  model.updateFavourites(req.user.id, advertsId)
+    .then(() => res.json({successful: true}))
+    .catch((error) => res.status(400).json({successful: false}))
 
 }
 
@@ -190,5 +199,6 @@ module.exports = {
   updateUserName,
   getMe,
   sendMailRestorePassword,
-  restorePassword
+  restorePassword,
+  updateUserFavouriteAdverts
 };

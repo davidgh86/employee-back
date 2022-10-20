@@ -45,6 +45,63 @@ async function findAllAdverts() {
 
 }
 
+async function findUserFavouriteAdverts(advertsId) {
+
+  const query = {
+    bool: {
+      must: {
+        filter: {
+          ids: {
+            values: advertsId
+          }
+        }
+      }
+    }
+  }
+
+  const sort = [
+    {
+      timestamp: "desc"
+    }
+  ]
+
+  const results = await executeQuery(query, sort)
+
+  const adverts = results.values
+      .map((hit) => advertHitToAdvert(hit))
+
+  return adverts
+
+}
+
+async function findUserAdverts(userId) {
+  
+  const query = {
+    bool: {
+      filter: [
+        {
+          term: {
+            userId: userId
+          }
+        }
+      ]
+    }
+  }
+
+  const sort = [
+    {
+      timestamp: "desc"
+    }
+  ]
+
+  const results = await executeQuery(query, sort)
+
+  const adverts = results.values
+      .map((hit) => advertHitToAdvert(hit))
+
+  return adverts
+}
+
 async function executeQuery(query, sort) {
 
   let _sort = !!sort?sort:undefined
@@ -82,5 +139,7 @@ module.exports = {
   findAdvertById,
   findAdverts,
   findAllAdverts,
-  insertAdvert
+  insertAdvert,
+  findUserAdverts,
+  findUserFavouriteAdverts
 }
