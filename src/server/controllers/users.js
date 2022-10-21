@@ -161,7 +161,8 @@ async function getMe(req, res) {
     name: user.name,
     email: user.email,
     telephone: user.telephone,
-    img: user.img
+    img: user.img,
+    favouriteAdverts: user.favouriteAdverts
   })
 }
 

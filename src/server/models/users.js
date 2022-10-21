@@ -13,7 +13,7 @@ async function updateName(id, email, name) {
 }
 
 async function updateFavourites(id, favouriteAdverts) {
-    return await User.updateOne({id: id}, {favouriteAdverts: favouriteAdverts})
+    return await User.findByIdAndUpdate(id, {favouriteAdverts: favouriteAdverts})
 }
 
 async function updateRecoveryPasswordCode(email, uuid) {
