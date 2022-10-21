@@ -49,11 +49,9 @@ async function findUserFavouriteAdverts(advertsId) {
 
   const query = {
     bool: {
-      must: {
-        filter: {
-          ids: {
-            values: advertsId
-          }
+      filter: {
+        ids: {
+          values: advertsId
         }
       }
     }
@@ -64,11 +62,10 @@ async function findUserFavouriteAdverts(advertsId) {
       timestamp: "desc"
     }
   ]
-
+  
   const results = await executeQuery(query, sort)
-
   const adverts = results.values
-      .map((hit) => advertHitToAdvert(hit))
+    .map((hit) => advertHitToAdvert(hit))
 
   return adverts
 
