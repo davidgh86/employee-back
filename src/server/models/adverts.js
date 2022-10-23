@@ -99,15 +99,51 @@ async function findUserAdverts(userId) {
   return adverts
 }
 
-async function executeQuery(query, sort) {
+async function findUserAdvertsTitles(userId) {
+  
+  const query = {
+    bool: {
+      filter: [
+        {
+          term: {
+            userId: userId
+          }
+        }
+      ]
+    }
+  }
+
+  const sort = [
+    {
+      timestamp: "desc"
+    }
+  ]
+
+  const results = await executeQuery(query, sort, "title")
+
+  const result = {}
+
+  const advertTitles = results.values
+      .forEach((hit) => {
+        const hitData = hit._source
+        result[hit._id] = hitData.title
+      })
+
+  return result
+}
+
+async function executeQuery(query, sort, source) {
 
   let _sort = !!sort?sort:undefined
+
+  let _source = !!source?source:undefined
   
   try {
     const { hits } = await esclient.search({
       index: index,
       query: query,
-      sort: _sort
+      sort: _sort,
+      _source: _source
     });
 
     const results = hits.total.value;
@@ -138,5 +174,6 @@ module.exports = {
   findAllAdverts,
   insertAdvert,
   findUserAdverts,
-  findUserFavouriteAdverts
+  findUserFavouriteAdverts,
+  findUserAdvertsTitles
 }

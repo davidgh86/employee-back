@@ -13,6 +13,6 @@ routes.route("/restorePassword").post(controller.restorePassword);
 routes.route("/my-favourite-adverts").put(authFilter, controller.updateUserFavouriteAdverts);
 routes.route("/send-restore-password-mail").post(controller.sendMailRestorePassword);
 routes.route("/:userId/name").patch(authFilter, controller.updateUserName);
-routes.route("/:userId").post(controller.getUserData);
+routes.route("/:userId").get(controller.getUserData);
 
 module.exports = routes;

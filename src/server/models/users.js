@@ -24,7 +24,6 @@ async function updatePassword(email, uuid, password) {
     return await User.findOneAndUpdate({email: email, restorePasswordUUID: uuid}, {password: password, restorePasswordUUID: undefined})
 }
 
-
 async function createUser({
     name,
     email,

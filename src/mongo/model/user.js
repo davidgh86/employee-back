@@ -14,7 +14,7 @@ const userSchema = new Schema({
     },
     restorePasswordUUID: { type: String },
     favouriteAdverts: {type: [String]}
-})
+}, { timestamps: true })
 
 
 module.exports = new mongoose.model('User', userSchema, 'users');
