@@ -7,6 +7,7 @@ const messageSchema = new Schema({
     from: { type: String },
     to: { type: String },
     message: { type: String },
+    senderTelephone: { type: String },
     name: { type: String },
     read: { type: Boolean, default: false }
 }, { timestamps: true })

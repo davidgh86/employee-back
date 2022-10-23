@@ -42,11 +42,21 @@ async function getMessagesCountByAdvertsId(advertsId, userMail){
     }
 }
 
+async function getMessagesByAdvertsIdAndUserAndContact(userMail, contactEmail, advertId) {
+    return await Message.find({$and: [{advertId: advertId}, {$or: [{from: userMail, to: contactEmail }, {from: contactEmail, to: userMail }]}]}).sort('-createdAt')
+}
+
 async function createMessage(message) {
     return await Message.create(message);
 }
 
+async function markConversationAsRead(userMail, contactEmail, advertId) {
+    return await Message.updateMany({$and: [{advertId: advertId}, {$or: [{from: userMail, to: contactEmail }, {from: contactEmail, to: userMail }]}, {read: false}]}, {$set:{read: true}})
+}
+
 module.exports = {
     createMessage,
-    getMessagesCountByAdvertsId
+    getMessagesCountByAdvertsId,
+    getMessagesByAdvertsIdAndUserAndContact,
+    markConversationAsRead
 }

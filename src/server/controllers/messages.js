@@ -39,7 +39,61 @@ async function getCountUnreadMessages(req, res) {
   res.json(count)
 }
 
+async function getConversation(req, res) {
+  const contactEmail = req.params.contact
+  const userMail = req.user.email
+  const advertId = req.params.advertId
+
+  const messages = await model.getMessagesByAdvertsIdAndUserAndContact(userMail, contactEmail, advertId)
+
+  const resultMessages = []
+  let senderTelephone = undefined
+  let name = undefined
+
+  messages.forEach(msg => {
+    if(!senderTelephone) {
+      if (msg.from === contactEmail && msg.fromTelephone) {
+        senderTelephone = msg.fromTelephone
+      }
+    }
+    if(!name) {
+      if (msg.from === contactEmail && msg.name) {
+        name = msg.name
+      }
+    }
+    resultMessages.push({
+      advertId: advertId,
+      from: msg.from,
+      to: msg.to,
+      message: msg.message,
+      read: msg.read,
+      createdAt: msg.createdAt
+    })
+  })
+
+  const result = {
+    senderTelephone: senderTelephone,
+    contactName: name,
+    contactMail: contactEmail,
+    messages: resultMessages
+  }
+
+  res.json(result)
+}
+
+async function markConversationAsRead(req, res) {
+  const contactEmail = req.params.contact
+  const userMail = req.user.email
+  const advertId = req.params.advertId
+
+  await model.markConversationAsRead(userMail, contactEmail, advertId)
+
+  getCountUnreadMessages(req, res)
+}
+
 module.exports = {
   createMessage,
-  getCountUnreadMessages
+  getCountUnreadMessages,
+  getConversation,
+  markConversationAsRead
 };
