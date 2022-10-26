@@ -121,7 +121,7 @@ async function init() {
   }
   await setAdvertMapping();
   if (process.env.NODE_ENV==="development" && process.env.BULK_DATA==="true"){
-    await elastic.loadSampleData()
+    await this.loadSampleData()
   }
 }
 

@@ -93,20 +93,7 @@ test('find a simple advert executing raw query', async () => {
                         query: "titulo2",
                         fields: ["title", "description"]
                     }
-                },
-                // {
-                //     nested : {
-                //         path: "place",
-                //         query: {
-                //             bool:{
-                //                 filter: [
-                //                     { term : {"place.level0": 6}},
-                //                     { term : {"place.level1": 7}}
-                //                 ]
-                //             }
-                //         }
-                //     }
-                // }
+                }
             ],
             filter: {
                 term: { type: "apply"}
@@ -131,19 +118,6 @@ test('find a simple advert executing raw query', async () => {
                         fields: ["title", "description"]
                     }
                 },
-                // {
-                //     nested : {
-                //         path: "place",
-                //         query: {
-                //             bool:{
-                //                 filter: [
-                //                     { term : {"place.level0": 6}},
-                //                     { term : {"place.level1": 7}}
-                //                 ]
-                //             }
-                //         }
-                //     }
-                // },
                 {
                     nested : {
                         path: "category",
@@ -157,10 +131,7 @@ test('find a simple advert executing raw query', async () => {
                         }
                     }
                 },
-            ],
-            // filter: {
-            //     term: { type: "apply"}
-            // }
+            ]
         }
     }
     const result = await advertService.executeQuery(query);
