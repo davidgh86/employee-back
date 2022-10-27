@@ -10,7 +10,7 @@ async function getPaginationId(keepAliveMin) {
     index: index,
     keep_alive: keepAliveMin+"m"
   });
-  return pitRes.body.id;
+  return pitRes.id;
 }
 
 async function preparePagination(pagination) {
@@ -34,12 +34,12 @@ async function preparePagination(pagination) {
 }
 
 function buildPage(results, pitId, offset, total) {
+
+  const _offset = (offset && offset.score && offset.hit)?[offset.score, offset.hit]:undefined
+  
   return {
     id: pitId,
-    offset: [
-      offset.score,
-      offset.hit
-    ],
+    offset: _offset,
     total: total,
     results: results
   }
@@ -48,7 +48,7 @@ function buildPage(results, pitId, offset, total) {
 
 async function findAdverts(queryParams, pagination) {
  
-  const _pagination = preparePagination(pagination)
+  const _pagination = await preparePagination(pagination)
 
   const query = buildElasticSearch(queryParams)
 
@@ -181,9 +181,9 @@ async function findUserAdvertsTitles(userId) {
 
 async function executeQuery(query, sort, source, pagination) {
 
-  let _sort = !!sort?sort:undefined
+  let _sort = sort||undefined
 
-  let _source = !!source?source:undefined
+  let _source = source||undefined
 
   let _size
 
@@ -197,8 +197,8 @@ async function executeQuery(query, sort, source, pagination) {
   } else {
     _size = pagination.size
     _pit = {
-      id: pitId,
-      keep_alive: keepAliveMin+"m"
+      id: pagination.pitId,
+      keep_alive: pagination.keepAliveMin+"m"
     }
     if (pagination.offset && pagination.offset.score && pagination.offset.hit) {
       _offset = [
@@ -210,7 +210,7 @@ async function executeQuery(query, sort, source, pagination) {
   
   try {
     const { hits } = await esclient.search({
-      index: index,
+      index: _pit?undefined:index,
       query: query,
       sort: _sort,
       _source: _source,

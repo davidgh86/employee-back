@@ -3,7 +3,16 @@ const model = require("../models/adverts");
 const { buildElasticSearch } = require("../../mapper/elasticSearchQueryMapper")
 
 async function findAdverts(req, res) {
-  const query  = buildElasticSearch(req.query);
+
+  const queryParams = {
+    text: req.query.text,
+    localityCode: req.query.localityCode,
+    category: req.query.category,
+    type: req.query.type,
+    dateLimit: req.query.dateLimit
+  }
+
+  const query  = buildElasticSearch(queryParams);
 
   if (!filterIsValid(query)) {
     res.status(422).json({
@@ -15,8 +24,15 @@ async function findAdverts(req, res) {
   }
 
   try {
+    
+    const paginationData = {
+      pitId: req.query.pitId,
+      offset: req.query.offset,
+      keepAliveMin: req.query.keepAliveMin,
+      size: req.query.size
+    }
 
-    const result = await model.findAdverts(req.query);
+    const result = await model.findAdverts(queryParams, paginationData);
     res.json(result);
 
   } catch (err) {

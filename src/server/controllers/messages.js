@@ -33,6 +33,9 @@ async function getCountUnreadMessages(req, res) {
   const count = await model.getMessagesCountByAdvertsId(Object.keys(advertTitles), userMail)
 
   Object.entries(advertTitles).forEach(([key, value]) => {
+    if (!count.advertUnreadMessages[key]) {
+      count.advertUnreadMessages[key] = {}
+    }
     count.advertUnreadMessages[key].title = value
   })
 
