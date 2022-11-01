@@ -54,7 +54,14 @@ async function findAllAdverts(req, res) {
   
   try {
 
-    const result = await model.findAllAdverts();
+    const paginationData = {
+      pitId: req.query.pitId,
+      offset: req.query.offset,
+      keepAliveMin: req.query.keepAliveMin,
+      size: req.query.size
+    }
+
+    const result = await model.findAllAdverts(paginationData);
     res.json(result);
 
   } catch (err) {
@@ -66,8 +73,15 @@ async function findUserAdverts(req, res) {
   
   const userId = req.user.id
 
+  const paginationData = {
+    pitId: req.query.pitId,
+    offset: req.query.offset,
+    keepAliveMin: req.query.keepAliveMin,
+    size: req.query.size
+  }
+
   try {
-    const result = await model.findUserAdverts(userId);
+    const result = await model.findUserAdverts(userId, paginationData);
     res.json(result);
 
   } catch (err) {
@@ -76,11 +90,18 @@ async function findUserAdverts(req, res) {
 }
 
 async function findUserFavouriteAdverts(req, res) {
+
+  const paginationData = {
+    pitId: req.query.pitId,
+    offset: req.query.offset,
+    keepAliveMin: req.query.keepAliveMin,
+    size: req.query.size
+  }
   
   const favouriteAdverts = req.user.favouriteAdverts
 
   try {
-    const result = await model.findUserFavouriteAdverts(favouriteAdverts);
+    const result = await model.findUserFavouriteAdverts(favouriteAdverts, paginationData);
     res.json(result);
 
   } catch (err) {

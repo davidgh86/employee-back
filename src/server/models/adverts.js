@@ -33,7 +33,7 @@ async function findAdvertById(id) {
 
 }
 
-async function findAllAdverts() {
+async function findAllAdverts(paginationData) {
 
   const query = {
     match_all: {}
@@ -45,16 +45,18 @@ async function findAllAdverts() {
     }
   ]
 
-  const results = await executeQuery(query, sort)
+  const _pagination = await preparePagination(paginationData)
+
+  const results = await executeQuery(query, sort, undefined, _pagination)
 
   const adverts = results.values
       .map((hit) => advertHitToAdvert(hit))
-
-  return adverts
+  
+  return buildPage(adverts, _pagination.pitId, results.offset, results.results)
 
 }
 
-async function findUserFavouriteAdverts(advertsId) {
+async function findUserFavouriteAdverts(advertsId, paginationData) {
 
   const query = {
     bool: {
@@ -71,16 +73,18 @@ async function findUserFavouriteAdverts(advertsId) {
       timestamp: "desc"
     }
   ]
+
+  const _pagination = await preparePagination(paginationData)
   
-  const results = await executeQuery(query, sort)
+  const results = await executeQuery(query, sort, undefined, _pagination)
   const adverts = results.values
     .map((hit) => advertHitToAdvert(hit))
 
-  return adverts
+    return buildPage(adverts, _pagination.pitId, results.offset, results.results)
 
 }
 
-async function findUserAdverts(userId) {
+async function findUserAdverts(userId, paginationData) {
   
   const query = {
     bool: {
@@ -100,12 +104,14 @@ async function findUserAdverts(userId) {
     }
   ]
 
-  const results = await executeQuery(query, sort)
+  const _pagination = await preparePagination(paginationData)
+
+  const results = await executeQuery(query, sort, undefined, _pagination)
 
   const adverts = results.values
       .map((hit) => advertHitToAdvert(hit))
 
-  return adverts
+  return buildPage(adverts, _pagination.pitId, results.offset, results.results)
 }
 
 async function findUserAdvertsTitles(userId) {
