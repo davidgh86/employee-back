@@ -35,7 +35,7 @@ async function preparePagination(pagination) {
 
 function buildPage(results, pitId, offset, total) {
 
-  const _offset = (offset && offset.score && offset.hit)?[offset.score, offset.hit]:undefined
+  const _offset = (offset && offset.length>0)?offset:undefined
   
   return {
     id: pitId,
@@ -52,7 +52,13 @@ async function findAdverts(queryParams, pagination) {
 
   const query = buildElasticSearch(queryParams)
 
-  const results = await executeQuery(query, undefined, undefined, _pagination)
+  const sort = [
+    {
+      _score: "desc"
+    }
+  ]
+
+  const results = await executeQuery(query, sort, undefined, _pagination)
 
   const adverts = results.values
       .map((hit) => advertHitToAdvert(hit))
@@ -200,11 +206,8 @@ async function executeQuery(query, sort, source, pagination) {
       id: pagination.pitId,
       keep_alive: pagination.keepAliveMin+"m"
     }
-    if (pagination.offset && pagination.offset.score && pagination.offset.hit) {
-      _offset = [
-        pagination.offset.score,
-        pagination.offset.hit
-      ]
+    if (pagination.offset) {
+      _offset = pagination.offset
     }
   }
   
@@ -226,7 +229,7 @@ async function executeQuery(query, sort, source, pagination) {
     
     if (values && values.length>0) {
       const lastValue = values[values.length - 1]
-      if (lastValue.sort && lastValue.sort.length==2) {
+      if (lastValue.sort && lastValue.sort.length>0) {
         offset = lastValue.sort
       }
     }
