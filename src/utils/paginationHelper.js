@@ -4,9 +4,7 @@ const esclient   = require("../elastic/elasticConfig")
 const defaultKeepAlive = parseInt(process.env.KEEP_ALIVE_ES_PAGINATION)
 const defaultPageSize = parseInt(process.env.PAGE_SIZE_ES_PAGINATION)
 
-esclient.p
-
-async function getPaginationId(keepAliveMin) {
+async function getPaginationId(keepAliveMin, index) {
   const pitRes = await esclient.openPointInTime({
     index: index,
     keep_alive: keepAliveMin+"m"
@@ -14,12 +12,12 @@ async function getPaginationId(keepAliveMin) {
   return pitRes.id;
 }
 
-async function preparePagination(pagination) {
+async function preparePagination(pagination, index) {
     // TODO check que pasa cuando caduca el keepAlive
     const _pagination = pagination||{}
   
     if (!_pagination.pitId){
-      _pagination.pitId = await getPaginationId(defaultKeepAlive)
+      _pagination.pitId = await getPaginationId(defaultKeepAlive, index)
       _pagination.offset = undefined
     }
   

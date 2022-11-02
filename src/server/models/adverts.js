@@ -4,7 +4,7 @@ const { preparePagination, buildPage } = require("../../utils/paginationHelper")
 
 async function findAdverts(queryParams, pagination) {
  
-  const _pagination = await preparePagination(pagination)
+  const _pagination = await preparePagination(pagination, index)
 
   const query = buildElasticSearch(queryParams)
 
@@ -41,11 +41,11 @@ async function findAllAdverts(paginationData) {
 
   const sort = [
     {
-      timestamp: "desc"
+      timestamp: {order: "desc", format: "strict_date_optional_time_nanos", numeric_type : "date_nanos" }
     }
   ]
 
-  const _pagination = await preparePagination(paginationData)
+  const _pagination = await preparePagination(paginationData, index)
 
   const results = await executeQuery(query, sort, undefined, _pagination)
 
@@ -74,7 +74,7 @@ async function findUserFavouriteAdverts(advertsId, paginationData) {
     }
   ]
 
-  const _pagination = await preparePagination(paginationData)
+  const _pagination = await preparePagination(paginationData, index)
   
   const results = await executeQuery(query, sort, undefined, _pagination)
   const adverts = results.values
@@ -100,11 +100,11 @@ async function findUserAdverts(userId, paginationData) {
 
   const sort = [
     {
-      timestamp: "desc"
+      timestamp: {order: "desc", format: "strict_date_optional_time_nanos", numeric_type : "date_nanos" }
     }
   ]
 
-  const _pagination = await preparePagination(paginationData)
+  const _pagination = await preparePagination(paginationData, index)
 
   const results = await executeQuery(query, sort, undefined, _pagination)
 
