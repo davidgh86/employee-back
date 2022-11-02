@@ -70,7 +70,7 @@ async function findUserFavouriteAdverts(advertsId, paginationData) {
 
   const sort = [
     {
-      timestamp: "desc"
+      timestamp: {order: "desc", format: "strict_date_optional_time_nanos", numeric_type : "date_nanos" }
     }
   ]
 
