@@ -1,20 +1,12 @@
 class MailSender {
 
-    transporter;
+    mailSender
 
-    from;
+    from
 
     constructor(){
-        require("dotenv").config()
-        const nodemailer = require('nodemailer')
-        this.transporter = nodemailer.createTransport({
-            service: process.env.NODE_MAILER_SERVICE,
-            auth: {
-                user: process.env.NODE_MAILER_USER,
-                pass: process.env.NODE_MAILER_PASSWORD
-            }
-        })
-        this.from = process.env.NODE_MAILER_USER
+        this.mailSender = require('sendmail')();
+        this.from = "no-reply@femploy.com"
     }
 
     sendMail(to, subject, text) {
@@ -23,10 +15,10 @@ class MailSender {
                 from: this.from,
                 to: to,
                 subject: subject,
-                text: text
+                html: text
             };
     
-            this.transporter.sendMail(mailOptions, (error, info) => {
+            this.mailSender(mailOptions, (error, info) => {
                 if (error) {
                     reject(error)
                 } else {
