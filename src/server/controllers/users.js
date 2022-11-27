@@ -26,7 +26,10 @@ async function createUser(req, res) {
     res.json({token: getToken(data.email)})
   }).catch(e => {
     console.log(e);
-    res.status(400)
+    res.status(400).json({
+      successful : false,
+      message: "duplicatedMail"
+    })
   })
   
 }
