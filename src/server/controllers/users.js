@@ -38,10 +38,10 @@ async function login(req, res) {
   
   const user = await model.getUserByEmail(req.body.email);
   
-  if (!user) return res.status(400).json({ error: 'Not found user' });
+  if (!user) return res.status(401).json({successful: false, message: 'notValidCredentials' });
 
   const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).json({ error: 'Not valid user or password' })
+  if (!validPassword) return res.status(401).json({successful: false, message: 'notValidCredentials' })
   
   const token = getToken(user.email)
 
